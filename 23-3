@@ -1,0 +1,97 @@
+SQL> set serveroutput on
+SQL> declare
+  2  x int;
+  3  begin
+  4  update employee set empsal=empsal+2000 where empsal<25000;
+  5  if sql%notfound then
+  6  dbms_output.put_line('no details');
+  7  elsif sql%found then
+  8  x:=sql%rowcount;
+  9  dbms_output.put_line(x||' employee salary updated');
+ 10  end if;
+ 11  end;
+ 12  /
+3 employee salary updated
+
+PL/SQL procedure successfully completed.
+
+SQL> select * from employee;
+
+     EMPNO EMPNAME    EMPDESIG
+---------- ---------- --------------------------------------------------
+    EMPSAL
+----------
+         1 chaithu    labassistant
+     17000
+
+         2 jaya       manager
+     22000
+
+         3 raji       dental
+     30000
+
+
+     EMPNO EMPNAME    EMPDESIG
+---------- ---------- --------------------------------------------------
+    EMPSAL
+----------
+         4 sandy      teacher
+     19000
+
+         5 anu        human recruiter
+     25000
+
+         6 ashi       charter accounter
+     50000
+
+
+     EMPNO EMPNAME    EMPDESIG
+---------- ---------- --------------------------------------------------
+    EMPSAL
+----------
+         7 babblu     engineer
+     26000
+
+         8 chinnu     doctor
+     30000
+
+         9 swetha     layer
+     35000
+
+
+     EMPNO EMPNAME    EMPDESIG
+---------- ---------- --------------------------------------------------
+    EMPSAL
+----------
+        10 meghana    lecturer
+     25000
+
+10 rows selected.
+SQL> set serveroutput on
+SQL> declare
+  2  idno employee.empno%type;
+  3  name employee.empname%type;
+  4  salary employee.empsal%type;
+  5  cursor c is select empno,empname,empsal from employee;
+  6  begin
+  7  open c;
+  8  loop
+  9  fetch c into idno,name,salary;
+ 10  exit when c%notfound;
+ 11  dbms_output.put_line(idno||'  '||name||'  '||salary);
+ 12  end loop;
+ 13  close c;
+ 14  end;
+ 15  /
+1  chaithu  17000
+2  jaya  22000
+3  raji  30000
+4  sandy  19000
+5  anu  25000
+6  ashi  50000
+7  babblu  26000
+8  chinnu  30000
+9  swetha  35000
+10  meghana  25000
+
+PL/SQL procedure successfully complete.
